@@ -18,6 +18,7 @@ class OrderedStringArray
         int max; // Indica el tamaño máximo del arreglo. N no puede ser mayor a MAX.
     public:
         /* Aquí irán los métodos. */
+        OrderedStringArray();
 
         // Inicializar / Borrar arreglo - María
         void init();
@@ -34,4 +35,4 @@ class OrderedStringArray
         void credits();
         // Salir - María
         void salir();
-}
+};
