@@ -29,7 +29,10 @@ class OrderedStringArray
         // Insertar - Fer
 
         // Eliminar - Jesús
+        int eliminar(std::string v);
+        
         // Modificar - Jesús
+        int modificar(std::string v);
 
         // Créditos - María
         void credits();
