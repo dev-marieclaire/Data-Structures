@@ -13,10 +13,47 @@ void OrderedStringArray::show()
         std::cout << A[i] << std::endl; // Imprime el elemento dentro del indice actual.
 }
 
+//quería nombrar el método en ingles pero "find" hubiera sonado sospechoso - fern
+int OrderedStringArray::search(std::string v) 
+{
+    //std::cout << "Valor a buscar: " ;
+    //std::cin >> v;
+
+    
+
+    for (int i = 0; i < n; i++){
+        if (A[i] == v) {
+            return i;
+        }
+        if (A[i] > v) {
+            return -1;
+        }
+        return -1;
+    }
+}
+
+void OrderedStringArray::insert(std::string v)
+{
+    if (n == max - 1) {
+        std::cout << "Arreglo lleno" << std::endl;
+    }
+    else {
+        std::cout << "Insertar valor: " ;
+        std::cin >> v;
+        i = n;
+        while (i < 0 && v < A[i]) {
+            A[i + 1] = A[i];
+            i = i - 1;
+        }
+        A[i + 1] = v;
+        n = n + 1;
+    }
+}
+
 void OrderedStringArray::credits()
 {
     printf("María Clara Isabel Jaime Benítez (Erick Amaury)\nMatrícula: 25420048\n");
-    printf("Fernanda Tovar Osuna\n");
+    printf("Fernanda Tovar Osuna\nMatrícula: 25420199\n");
     printf("Jesús Emanuel\n");
 }
 
