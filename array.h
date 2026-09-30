@@ -26,7 +26,10 @@ class OrderedStringArray
         void show();
 
         // Buscar - Fer
+        int search(std::string v);
+
         // Insertar - Fer
+        void insert(std::string v);
 
         // Eliminar - Jesús
         int eliminar(std::string v);
