@@ -18,9 +18,6 @@ int OrderedStringArray::search(std::string v)
 {
     //std::cout << "Valor a buscar: " ;
     //std::cin >> v;
-
-    
-
     for (int i = 0; i < n; i++){
         if (A[i] == v) {
             return i;

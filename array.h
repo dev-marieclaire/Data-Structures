@@ -27,6 +27,7 @@ class OrderedStringArray
 
         // Buscar - Fer
         int search(std::string v);
+
         // Insertar - Fer
         void insert(std::string v);
 
