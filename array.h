@@ -42,3 +42,5 @@ class OrderedStringArray
         // Salir - María
         void salir();
 };
+
+int is_greater(std::string x, std::string y);
