@@ -7,23 +7,28 @@
 // Retorna 1 si x > y, -1 si x < y, 0 si son iguales.
 int is_greater(std::string x, std::string y)
 {
-    std::string aux_x, aux_y;
+    int j = 0;
 
-    for (unsigned char c : x)
-        aux_x += static_cast<char>(std::toupper(c));
-
-    for (unsigned char c : y)
-        aux_y += static_cast<char>(std::toupper(c));
-
-    if (aux_x == aux_y) return 0;
+    if (x == y) return 0;
 
     size_t i = 0;
-    while (i < aux_x.size() && i < aux_y.size())
+    while (i < x.size() && i < y.size())
     {
-        if (aux_x[i] > aux_y[i]) return 1;
-        if (aux_x[i] < aux_y[i]) return -1;
+        if (x[i] > y[i])
+        {
+            std::cout << "Total de subciclos: " << j << std::endl;
+            return 1;
+        }
+        if (x[i] < y[i])
+        {
+            std::cout << "Total de subciclos: " << j << std::endl;
+            return -1;
+        }
         ++i;
+        j++;
     }
+
+    std::cout << "Total de subciclos: " << j << std::endl;
 
     // Si una cadena es prefijo de la otra, la más corta es menor.
     return (aux_x.size() < aux_y.size()) ? -1 : 1;
@@ -42,8 +47,13 @@ void OrderedStringArray::show()
     std::cout << "Tamaño del arreglo: " << max << std::endl;
     std::cout << "Elementos guardados: " << n + 1 << std::endl;
 
+    int j = 0;
     for (int i = 0; i <= n; i++)
+    {
         std::cout << A[i] << std::endl;
+        j++;
+    }
+    std::cout << "Total de ciclos: " << j << std::endl;
 }
 
 int OrderedStringArray::search(std::string v)
@@ -57,7 +67,11 @@ int OrderedStringArray::search(std::string v)
     for (int i = 0; i <= n; i++)
     {
         if (is_greater(A[i], v) == 0)
+        {
+            std::cout << "Se ha encontrado exitosamente." << std::endl;
+            std::cout << "Total de ciclos: " << i << std::endl;
             return i;
+        }
     }
 
     return -1;
@@ -78,13 +92,18 @@ void OrderedStringArray::insert(std::string v)
     }
 
     int i = n; // último índice ocupado
+    int j = 0;
 
     // Desplaza a la derecha mientras el elemento actual sea mayor que v.
     while (i >= 0 && is_greater(A[i], v) > 0)
     {
         A[i + 1] = A[i];
         i -= 1;
+
+        j++;
     }
+
+    std::cout << "Total de ciclos: " << j << std::endl;
 
     A[i + 1] = v;
     n += 1;
@@ -102,11 +121,14 @@ int OrderedStringArray::eliminar(std::string v)
 
     if (R >= 0)
     {
+        int j = 0;
         // Primero desplaza los elementos a la izquierda.
         for (int i = R; i < n; i++)
         {
             A[i] = A[i + 1];
+            j++;
         }
+        std::cout << "Total de ciclos: " << j << std::endl;
 
         // Luego reduce el tamaño lógico.
         n -= 1;
