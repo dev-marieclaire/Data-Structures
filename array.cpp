@@ -9,17 +9,31 @@ int is_greater(std::string x, std::string y)
 {
     int j = 0;
 
-    if (x == y) return 0;
+    std::string aux_x, aux_y;
+
+    for (unsigned char c : x)
+    {
+        aux_x += static_cast<char>(std::toupper(c));
+        j++;
+    }
+
+    for (unsigned char c : y)
+    {
+        aux_y += static_cast<char>(std::toupper(c));
+        j++;
+    }
+
+    if (aux_x == aux_y) return 0;
 
     size_t i = 0;
-    while (i < x.size() && i < y.size())
+    while (i < aux_x.size() && i < aux_y.size())
     {
-        if (x[i] > y[i])
+        if (aux_x[i] > aux_y[i])
         {
             std::cout << "Total de subciclos: " << j << std::endl;
             return 1;
         }
-        if (x[i] < y[i])
+        if (aux_x[i] < aux_y[i])
         {
             std::cout << "Total de subciclos: " << j << std::endl;
             return -1;
