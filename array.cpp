@@ -3,49 +3,57 @@
 #include <stdio.h>
 #include <cctype>
 
+char to_upper_char(unsigned char c)
+{
+    if (c >= 'a' && c <= 'z')
+        return static_cast<char>(c - ('a' - 'A'));
+    return static_cast<char>(c);
+}
+
+std::string to_upper(const std::string &s)
+{
+    std::string r;
+    r.reserve(s.size());
+    for (unsigned char c : s)
+        r += to_upper_char(c);
+    return r;
+}
+
 // María - Compara alfabéticamente dos Strings, ignorando mayúsculas/minúsculas.
 // Retorna 1 si x > y, -1 si x < y, 0 si son iguales.
 int is_greater(std::string x, std::string y)
 {
     int j = 0;
 
-    std::string aux_x, aux_y;
-
-    for (unsigned char c : x)
-    {
-        aux_x += static_cast<char>(std::toupper(c));
-        j++;
-    }
-
-    for (unsigned char c : y)
-    {
-        aux_y += static_cast<char>(std::toupper(c));
-        j++;
-    }
-
-    if (aux_x == aux_y) return 0;
+    if (to_upper(x) == to_upper(y)) return 0;
 
     size_t i = 0;
-    while (i < aux_x.size() && i < aux_y.size())
+    while (i < x.size() && i < y.size())
     {
-        if (aux_x[i] > aux_y[i])
+        char aux_x = to_upper_char(static_cast<unsigned char>(x[i]));
+        char aux_y = to_upper_char(static_cast<unsigned char>(y[i]));
+
+        j++;
+
+        if (aux_x > aux_y)
         {
             std::cout << "Total de subciclos: " << j << std::endl;
             return 1;
         }
-        if (aux_x[i] < aux_y[i])
+        if (aux_x < aux_y)
         {
             std::cout << "Total de subciclos: " << j << std::endl;
             return -1;
         }
+
         ++i;
-        j++;
     }
 
     std::cout << "Total de subciclos: " << j << std::endl;
 
     // Si una cadena es prefijo de la otra, la más corta es menor.
-    return (aux_x.size() < aux_y.size()) ? -1 : 1;
+    std::cout << "Total de subciclos: " << j << "\n";
+    return (x.size() < y.size()) ? -1 : 1;
 }
 
 OrderedStringArray::OrderedStringArray()
