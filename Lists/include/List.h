@@ -17,22 +17,32 @@ private:
     Node* firstPriority2() const
     {
         Node* q = head;
-        while (q && q->Prioridad == 1) q = q->Sig;
+        // Mientras q no sea nulo y su prioridad sea 1,
+        // sigue avanzando hasta encontrar el primer nodo con prioridad 2
+        while (q && q->Prioridad == 1) 
+            q = q->Sig;
+            
         return q;
     }
 
     // Si la fecha que buscamos está en la segunda mitad de la lista,
     // es más rápido empezar a buscar desde el final (tail) hacia atrás.
     bool startFromTail(const Date& d, Node* first) const
-    {
-        return d.getYear() > (first->Info.getYear() + tail->Info.getYear()) / 2;
+    { 
+        return d.getYear() > (first->Info.getYear() + tail->Info.getYear()) / 2; 
     }
 
     // Búsqueda secuencial normalita, pero solo entre los nodos de prioridad 1
+    // Al estar desordenados, tenemos que recorrer toda la lista.
     Node* searchPriority1(const Date& d) const
     {
-        for (Node* q = head; q && q->Prioridad == 1; q = q->Sig)
+        Node* q = head;
+        // Nos movemos solo mientras estemos en el bloque de prioridad 1
+        while (q && q->Prioridad == 1)
+        {
             if (q->Info.equals(d)) return q;
+            q = q->Sig;
+        }
         return nullptr;
     }
 
@@ -46,20 +56,24 @@ private:
 
         if (startFromTail(d, first))
         {
-            // Vamos de atrás hacia adelante
-            for (Node* q = tail; q && q->Prioridad == 2; q = q->Ant)
+            // Va de atrás hacia adelante
+            Node* q = tail;
+            while (q && q->Prioridad == 2)
             {
                 if (q->Info.equals(d)) return q;
                 if (q->Info.isLess(d)) return nullptr; // Ya nos pasamos, no está
+                q = q->Ant;
             }
         }
         else
         {
             // Vamos de adelante hacia atrás
-            for (Node* q = first; q; q = q->Sig)
+            Node* q = first;
+            while (q)
             {
                 if (q->Info.equals(d)) return q;
                 if (d.isLess(q->Info)) return nullptr; // Ya nos pasamos, no está
+                q = q->Sig;
             }
         }
         return nullptr;
@@ -70,21 +84,29 @@ private:
     {
         Node* first = firstPriority2();
         
-        // Casos rápidos: la lista está vacía, o va al puro inicio, o al puro final
+        // Aquí van los casos particulares: la lista está vacía, o va al puro inicio, o al puro final
         if (!first) { insertBack(d, 2); return; }
         if (d.isLess(first->Info)) { insertBefore(first, d, 2); return; }
         if (!d.isLess(tail->Info)) { insertBack(d, 2); return; }
 
-        // Si no, buscamos el "hueco" donde quepa
+        // Si no, buscamos el hueco en el que quepa
         if (startFromTail(d, first))
         {
-            for (Node* q = tail; q && q->Prioridad == 2; q = q->Ant)
+            Node* q = tail;
+            while (q && q->Prioridad == 2)
+            {
                 if (q->Info.isLess(d)) { insertAfter(q, d, 2); return; }
+                q = q->Ant;
+            }
         }
         else
         {
-            for (Node* q = first; q; q = q->Sig)
+            Node* q = first;
+            while (q)
+            {
                 if (!q->Info.isLess(d)) { insertBefore(q, d, 2); return; }
+                q = q->Sig;
+            }
         }
     }
 
@@ -114,6 +136,7 @@ public:
         Node* Q = new Node(v, p);
         Q->Ant = R->Ant;
         Q->Sig = R;
+
         // Conectamos el nodo de atrás con el nuevo Q
         if (R->Ant) R->Ant->Sig = Q; else head = Q;
         R->Ant = Q;
@@ -189,6 +212,7 @@ public:
             }
             return false;
         }
+
         // En P2 buscamos la fecha exacta y desconectamos el nodo
         Node* n = searchPriority2(d);
         if (!n) return false;
@@ -211,8 +235,12 @@ public:
         }
         std::cout << "--- Contenido ---\n";
         // Vamos de inicio a final usando un auxiliar "T"
-        for (Node* T = head; T != nullptr; T = T->Sig)
+        Node* T = head;
+        while (T != nullptr)
+        {
             std::cout << T->toString() << "\n";
+            T = T->Sig;
+        }
         std::cout << "-----------------\n";
     }
 
@@ -224,8 +252,12 @@ public:
             return;
         }
         // Aquí usamos el puntero final "F" para ir hacia atrás
-        for (Node* T = tail; T != nullptr; T = T->Ant)
+        Node* T = tail;
+        while (T != nullptr)
+        {
             std::cout << T->toString() << "\n";
+            T = T->Ant;
+        }
     }
 
     // Destruye todos los nodos para no dejar memoria colgada

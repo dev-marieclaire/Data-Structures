@@ -112,7 +112,7 @@ void Menu::Initialize()
 
 void Menu::Display()
 {
-    if (list.EsVacia())
+    if (list.isEmpty())
     {
         std::cout << "\n>> La lista esta vacia.\n";
         pressEnter();
@@ -123,8 +123,8 @@ void Menu::Display()
 
     int opt = promptInt("Elija orden", 1, 2);
     
-    if (opt == 1) list.Mostrar();
-    else list.MostrarReversa();
+    if (opt == 1) list.display();
+    else list.displayReverse();
     
     pressEnter();
 }
@@ -235,6 +235,20 @@ void Menu::Modify()
         list.insert(newDate, 2);
         std::cout << "\n>> Modificada y reordenada: " << newDate.toString() << "\n";
     }
+    pressEnter();
+}
+
+void Menu::Credits()
+{
+    std::cout << "\n*********************************************************\n"
+              << "  ESTRUCTURAS DE DATOS, Unidad II:\n"
+              << "  Practica de Listas Doblemente Enlazadas\n"
+              << "--------------------------------------------\n"
+              << "  Integrantes:\n"
+              << "    - Erick Amaury Jaime Benítez  (Matricula: 25420048)\n"
+              << "    - Fernanda Tovar Osuna        (Matricula: 25420199)\n"
+              << "    - Jesús Emanuel               (Matricula: 25420199)\n"
+              << "*********************************************************\n";
     pressEnter();
 }
 
